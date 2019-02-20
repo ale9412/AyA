@@ -20,7 +20,7 @@
 		{% if not Proxmox and not Zabbix %}
 	<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-lg shadow-lg p-3 mb5 rounded" >Empezar</button>
 	{% else %}
-	<a role="button" class="btn btn-primary btn-lg shadow-lg p-3 mb5 rounded" href="{% url 'servers:servers_list' %}">Empezar</a>
+	<a role="button" class="btn btn-primary btn-lg shadow-lg p-3 mb5 rounded" href="{% url 'data:servers_list' %}">Empezar</a>
 	{% endif %}
 	</p>
 	</div>

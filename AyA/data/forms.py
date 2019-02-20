@@ -1,6 +1,6 @@
 from django import forms
 
-from data.models import ProxmoxData, ZabbixDB, Users
+from data.models import ProxmoxData, ZabbixDB, ExtraData
 
 class ProxmoxForm(forms.ModelForm):
 
@@ -55,7 +55,7 @@ class ZabbixForm(forms.ModelForm):
 
 class ExtraDataForm(forms.ModelForm):
     class Meta:
-        model = Users
+        model = ExtraData
 
         fields = (
             'current_users',

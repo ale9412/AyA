@@ -9,7 +9,7 @@
 				<p>Primero, lo primero, es necesario insertar los datos de los servidores Proxmox y la base de datos de Zabbix</p>
 			</div> 
 			<div class="modal-footer"> 
-				<form method="get" action="{% url 'servers:servers_list' %}">
+				<form method="get" action="{% url 'data:servers_list' %}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-primary btn-shadow">Continuar</button>
 				</form>

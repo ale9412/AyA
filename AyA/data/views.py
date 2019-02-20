@@ -8,6 +8,18 @@ from data.models import ProxmoxData,ZabbixDB
 from data.forms import ExtraDataForm
 from data.models import ExtraData
 
+class Homepage(TemplateView):
+    template_name = 'homepage.html'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Proxmox'] = ProxmoxData.objects.first()
+        context['Zabbix'] = ZabbixDB.objects.first()
+        return context
+
+class About(TemplateView):
+    template_name = 'about.html'
+
 class ServerList(View):
     context = {}
     form_prox = ProxmoxForm()

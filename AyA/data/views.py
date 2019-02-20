@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import CreateView,DeleteView,UpdateView
 from django.urls import reverse_lazy
+
 from data.forms import ProxmoxForm,ZabbixForm
 from data.models import ProxmoxData,ZabbixDB
 from data.forms import ExtraDataForm

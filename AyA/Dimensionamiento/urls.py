@@ -19,8 +19,6 @@ from data.views import Homepage
 
 urlpatterns = [
     url('^$',Homepage.as_view(),name='homepage'),
-    url('user/',include('users.urls',namespace='users')),
-    url('servicios/',include('servicios.urls',namespace='servicios')),
-    url('servers/',include('servers.urls',namespace='servers')),
-    url('utilization/',include('utilization.urls',namespace='utilization')),
+    url('data/',include('users.urls',namespace='users')),
+    url('services/',include('servicios.urls',namespace='servicios')),
 ]

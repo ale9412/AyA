@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<div class="modal fade" id="zabbixModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<h5 class="modal-title" id="exampleModalLabel">ZabbixDB Datos</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
+			</div> 
+			<form action="{% url 'servers:zabbix_data' %}" method="post">
+				{% csrf_token %}
+				<div class="modal-body">
+		
+					<div class="form-group">
+					
+					<label for="{{ form_zabbix.username.name }}"><p class="font-weight-bold font-italic">Username</p></label>
+					{{form_zabbix.username}}
+					</div>
+					<div class="form-group">
+					<label for="{{ form_zabbix.password.name }}"><p class="font-weight-bold font-italic">Password</p></label>
+					<div class="input-group">
+						<input type="password" onkeyup="showIcon(this)" name="{{form_zabbix.password.name}}" id="formZabb" class="form-control" aria-label="Example text with button addon" placeholder="Password" aria-describedby="button-addon1" required="">
+						<img id="passRevealProx" src="{% static 'img/glyphicons-halflings-25-eye%402x.png' %}" class="reveal" height=18 width=18 onmousedown="mdown(this)" onmouseup="mup(this)">
+						
+					</div>
+					</div>
+					<div class="form-group">
+						<label for="{{ form_zabbix.address.name }}"><p class="font-weight-bold font-italic">Address</p></label>
+						{{form_zabbix.address}}
+					</div>	
+				</div> 
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary btn-shadow">Save changes</button>
+					<button type="button" class="btn btn-secondary btn-shadow" data-dismiss="modal">Close</button> 
+					
+				</div> 
+			</form>
+		</div> 
+	</div> 
+</div>

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Lilipad: Servicios{%endblock%}
+
+{% block content %}
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+{% if service_list %}
+<h1 class="display-5 info-header">Servicios</h1>
+{% else %}
+
+<h1 class="display-5 info-header">No existen registros de servicios</h1>
+{% endif %}
+<table class="table table-bordered table-sm">
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col" class="first">Servicio</th>
+			<th scope="col">Hostid</th>
+			<th scope="col">Hypervisor</th>
+			<th scope="col">Proxmox</th>
+			<th scope="col" class="last">Descripcion</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% if service_list %}
+		{% for servicio in service_list %}
+		<tr>
+			<td><p class="font-weight-bold">{{servicio.name}}</p></td>
+			<td>{{servicio.hostid}}</td>
+			<td>{{servicio.hypervisor}}</td>
+			<td>{{servicio.proxmox_ip}}</td>
+			<td>{{servicio.description}}</td>
+		</tr>
+
+		{% endfor %}
+	</tbody>
+</table>
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+		{% if page_obj.has_previous %}
+			<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page=1" disabled>Inicio</a></li>
+			<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.previous_page_number}}"><span class="badge badge-light">{{page_obj.previous_page_number}}</span> Previous</a></li>
+		{% endif %}
+		{% if page_obj.has_next %}
+			<li class="page-item"><a class="btn btn-outline-primary btn-sm item" href="?page={{ page_obj.next_page_number}}">Next <span class="badge badge-light">{{page_obj.next_page_number}}</span></a></li>
+			<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.paginator.num_pages}}">Fin</a></li>
+		{% endif %}
+		
+		</ul>
+	</nav>
+
+<br>
+<button class="btn btn-danger btn-shadow" data-toggle="modal" data-target="#serviceDel"">Borrar</button>
+
+</div>
+		{% else %}
+		<tr>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+		</tr>	
+	</tbody>
+</table>
+</div>
+<br>
+<div class="text-center">
+<form method="post" action="{% url 'servicios:gather_service' %}">
+	{% csrf_token %}
+	<button class="btn btn-primary btn-shadow" type="submit">Buscar</button>
+</form>
+</div>
+{% endif %}
+
+<div class="modal fade" id="serviceDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<h5 class="modal-title" id="exampleModalLabel">Eliminar Servicios</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
+			</div> 
+			<div class="modal-body">
+				<p>Seguro que desa vaciar el registro de servicios?</p>
+			</div> 
+			
+			<div class="modal-footer">
+				<form method="post" action="{% url 'servicios:delete_all' %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-danger btn-sm btn-shadow">Si, borrar</button>
+					<button type="button" class="btn btn-secondary btn-sm btn-shadow" data-dismiss="modal">Cancelar</button>
+				</form>						
+			</div> 
+		</div> 
+	</div> 
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer>
+	<hr class="my-4">
+	<small><i>Copyright &copy; 2018-2019  A.M.H.</i></small>
+</footer>
+
+{% endblock %}

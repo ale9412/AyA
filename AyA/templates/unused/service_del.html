@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Borrar Servicios{% endblock %}
+
+{% block content %}
+<h1 class="display-7">Seguro que desa vaciar el registro de servicios?</h2>
+<form method="post">
+	{% csrf_token %}
+	<button class="btn btn-danger">Si, borrar</button>
+	<a class="btn btn-secondary" href="{% url 'servicios:servicios_listar' %}">Cancelar</a>
+</form>
+
+{% endblock %}

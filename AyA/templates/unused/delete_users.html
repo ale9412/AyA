@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block content %}
+<form method="post">
+	{% csrf_token %}
+	<h3>Esta seguro que desea eliminar el registro de usuarios?</h1>
+	<button class="btn btn-danger btn-shadow" type="submit">Si, eliminar</button>
+	<a class="btn btn-secondary btn-shadow" href="{% url 'users:user_list' %}">Cancelar</a>
+</form>
+{% endblock %}

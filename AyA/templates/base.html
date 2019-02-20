@@ -1,0 +1,68 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		{% block extrastatic %}{% endblock %}
+		<link rel="stylesheet" href="{% static 'css/bootstrap_cosmo.min.css' %}"/>
+		<link rel="stylesheet" href="{% static 'css/custom.css' %}"/>
+		<title>{% block title %}{% endblock %}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="shortcut icon" type="image/x-icon" href="{% static 'img/lilybig.png' %}" />
+	</head>
+	<body >
+		<div class="container text-center">
+		{% block navbar %}
+			<nav class="navbar navbar-expand-sm navbar-dark bg-primary sticky-top">
+				<a class="navbar-brand" href="{% url 'homepage' %}">
+						<img src="{% static 'img/lily1.png' %}" width="30" height="30" alt="">
+						Lilipad
+				</a>
+				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="true" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+			  
+				<div class="collapse navbar-collapse" id="navbarColor01">
+				  <ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+					  	<a class="nav-link" href="{% url 'servers:servers_list' %}">Servidores</a>
+					</li>
+					<li class="nav-item">
+					  	<a class="nav-link" href="{% url 'users:user_list' %}">Usuarios</a>
+					</li>
+					<li class="nav-item">
+					  	<a class="nav-link" href="{% url 'servicios:servicios_listar' %}}">Servicios</a>
+					</li>
+					<li class="nav-item dropdown">
+
+					  	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Utilización</a>
+					  	<div class="dropdown-menu show" aria-labelledby="navbarDropdownMenuLink">
+					  		<a class="dropdown-item" href="{% url 'utilization:current' %}">Utilización Actual</a>
+					  		<a class="dropdown-item" href="{% url 'utilization:future' %}">Utilización Futura</a>
+					  	</div>
+					</li>
+				  </ul>
+				  
+				</div>
+			</nav>
+		{% endblock %}
+			<br>
+			<br>
+		{% block content %}{% endblock %}
+		{% block footer %}
+			<footer class="fixed-bottom">
+				<hr class="my-4">
+				<small><i>Copyright &copy; 2018-2019 A.M.H.</i></small>
+			</footer>
+		{% endblock %}
+		</div>
+
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.min.js' %}"></script>
+		<script src="{% static 'js/popper.min.js' %}"></script>
+		<script src="{% static 'js/custom.js' %}"></script>
+
+		{% block extrajs %}{% endblock %}
+	</body>
+</html>

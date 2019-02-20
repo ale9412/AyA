@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Formulario de Usuarios{% endblock %}
+
+{% block content %}
+<div class="shadow p-5 mb5 bg-light rounded">
+	<form method="post">
+		{% csrf_token %}
+		<div  class="row">
+			<div class="col-md-4 col-md-offset-2">
+				<div class="form-group">
+					<label for="{{form.current_users.name}}"><p class="font-weight-bold font-italic">{{form.current_users.label}}</p></label>
+					{{form.current_users}}
+					<small id="passwordHelpBlock" class="form-text text-muted">
+						You must insert numbers
+					</small>
+				</div>
+			</div>
+			<div class="col-md-4 col-md-offset-2">
+				<div class="form-group">
+					<label for="{{form.new_users.name}}"><p class="font-weight-bold font-italic">{{form.new_users.label}}</p></label>
+					{{form.new_users}}
+	<small id="passwordHelpBlock" class="form-text text-muted">
+						You must insert numbers
+					</small>
+
+				</div>
+			</div>
+			<div class="col-md-4 col-md-offset-2">
+				<div class="form-group">
+					<label for="{{form.future_users.name}}"><p class="font-weight-bold font-italic">{{form.future_users.label}}</p></label>
+					{{form.future_users}}
+					<small id="passwordHelpBlock" class="form-text text-muted">
+						You must insert numbers
+					</small>
+
+				</div>
+			</div>
+		</div>
+		<button class="btn btn-primary btn-shadow" type="submit">Guardar</button>
+		<a class="btn btn-secondary btn-shadow" role="button" href="{% url 'users:user_list' %}">Cancelar</a>
+	</form>
+</div>
+
+{% endblock %}

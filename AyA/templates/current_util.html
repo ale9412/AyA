@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Lilipad: Utilización Actual{% endblock %}
+
+
+{% block content %}
+<!-- Seleccionar el tipo de metrica a visualizar para todos los servicios -->
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+	<form method="get" >
+		{% csrf_token %}
+		<div class="input-group selector">
+			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
+				<option selected="" value="">Choose</option>
+				<option value="RAM">RAM</option>
+				<option value="CPU">CPU</option>
+				<option value="Disco">Disco</option>
+			</select>
+			<div class="input-group-append">
+				<button class="btn btn-outline-primary selector" id="buttonSelector" type="submit">Seleccionar</button>
+			</div>
+		</div>
+	</form>
+
+	<div class="title">
+		<h1 id="selectHead" class="display-5 info-header">{% if page_obj %}Utilización {{metric}}
+		{% else %}No existen servicios registrados, <a href="{% url 'servicios:servicios_listar' %}">insértelos</a>{% endif %}</h1>
+	</div>
+	<table class="table table-bordered table-sm">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col" class="first">Servicio</th>
+				<th scope="col">Avg</th>
+				<th scope="col">Max</th>
+				<th scope="col" class="last">95 Percentil</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if page_obj %}
+			{% for value in page_obj %}
+
+			<tr>
+				<td><p class="font-weight-bold">{{value.servicio}}</p></td>
+				<td>{{value.average}}</td>
+				<td>{{value.maximum}}</td>
+				<td>{{value.percentil}}</td>
+			</tr>
+
+			{% endfor %}
+			{% else %}
+			<tr>
+				<td><p class="font-weight-bold">empty</p></td>
+				<td>empty</td>
+				<td>empty</td>
+				<td>empty</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			{% if page_obj.has_previous %}
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page=1" disabled>Inicio</a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.previous_page_number}}"><span class="badge badge-light">{{page_obj.previous_page_number}}</span> Previous</a></li>
+			{% endif %}
+			{% if page_obj.has_next %}
+				<li class="page-item"><a class="btn btn-outline-primary btn-sm item" href="?page={{ page_obj.next_page_number}}">Next <span class="badge badge-light">{{page_obj.next_page_number}}</span></a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.paginator.num_pages}}">Fin</a></li>
+			{% endif %}
+			
+		</ul>
+	</nav>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<footer>
+	<hr class="my-4">
+	<small><i>Copyright &copy; 2018-2019  A.M.H.</i></small>
+</footer>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/revealPass.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,121 @@
+body{
+	background-image: url('../img/piecem.jpg');
+	background-repeat: repeat-x repeat-y;
+
+/*background-color:#e9ecef;*/
+}
+
+.btn{
+	border-radius: 25px;
+    -webkit-border-radius :25px;
+}
+
+
+#logo:hover{
+transform:scale(1.3);
+-webkit-transform:scale(1.3);
+}
+
+.content{
+padding:60px 0px;
+}
+
+.btn-shadow{
+box-shadow:5px 3px 4px grey;
+-webkit-box-shadow:5px 3px 4px grey;
+}
+
+.btn-shadow:focus{
+box-shadow:5px 3px 4px grey;
+-webkit-box-shadow:5px 3px 4px grey;
+}
+
+.item{
+border-radius:20px;
+-webkit-border-radius:20px;
+}
+
+.form-control, .custom-select, .selector{
+border-radius: 25px;
+-moz-border-radius :25px;
+-webkit-border-radius :25px;
+-o-border-radius :25px;
+}
+
+.modal-content{
+border-radius: 10px;
+-webkit-border-radius :10px;
+-o-border-radius :10px;
+-moz-border-radius :10px;
+}
+
+.reveal{
+visibility: hidden;
+width: auto;
+height: auto;
+max-width: 20px;
+max-height: 20px;
+position: absolute;
+right: 15px;
+top: 9px;
+z-index: 10;
+-webkit-z-index: 10;
+opacity: 0.6;
+cursor: pointer;
+}
+.reveal:hover{
+	opacity:1;
+}
+
+thead .first{
+	border-top-left-radius: 25px;
+}
+thead .last{
+	border-top-right-radius: 30px;
+}
+.table, .table .thead-dark th{
+	border: 1px solid white;
+	/*border-color: white;*/
+}
+
+.title{
+	padding-top: 20px;	
+}
+
+.custom-select:hover{
+	border: 1px solid #2780E3;
+	color:#2780E3;
+}
+.dropdown-menu:before{
+	content: '';
+	width: 0;
+	height: 0;
+	border-right: 8px solid transparent;
+	border-left: 8px solid transparent;
+	border-bottom: 10px solid rgba(255,255,255,0.8);
+	position: absolute;
+	margin-top: -17px;
+	margin-left: 30px;
+	
+}
+.dropdown-menu{
+	background-color: rgba(255,255,255,0.8);
+	border-radius: 15px;
+	transform: rotateY(240deg) scale(0);
+	transition: all 0.5s;
+	-webkit-transform: rotateY(250deg) scale(0);
+	-webkit-transition: all 0.5s;
+	padding-left: 1px;
+	padding-right: 1px;
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+.dropdown-menu:hover,.dropdown-toggle:hover ~ div{
+	transform: rotateY(0deg) scale(1);
+	transition: all 0.5s;
+	-webkit-transform: rotateY(0deg) scale(1);
+	-webkit-transition: all 0.5s;
+}
+footer{
+	color:rgba(44, 39, 39, 0.5);
+}

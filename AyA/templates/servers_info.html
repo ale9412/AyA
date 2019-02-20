@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Lilipad: Servidores{% endblock %}
+
+{% block content %}
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+	<h2 class="info-header">Información de los servidores Proxmox</h2>
+	<table class="table table-sm">
+		<thead class="thead-dark">
+		  <tr>
+			<th class="col-md3 first" scope="col">Nombre</th>
+			<th scope="col">User</th>
+			<th scope="col">IP</th>
+			<th scope="col" class="last">Acciones</th>
+			<!-- <th scope="col">Proxmox</th> -->
+		  </tr>
+		</thead>
+		<tbody>
+			{% if proxmox %}
+			{% for server in proxmox %}
+			<tr>
+				<td>{{server.servername}}</td>
+				<td>{{server.username}}</td>
+				<td>{{server.address}}</td>
+				<td>
+					
+					<button type="button" data-toggle="modal" data-target="#edit{{server.servername}}" class="btn btn-primary btn-sm btn-shadow" >Editar</button>
+					<button type="button" data-toggle="modal" data-target="#del{{server.servername}}" class="btn btn-danger btn-sm btn-shadow" >Eliminar</button>
+					<!-- Modal para editar instancia proxmox -->
+					{% include 'modals/modal_prox_edit.html' %}
+					<!-- Modal para eliminar instancia de proxmox -->
+					{% include 'modals/delete_proxmox.html' %}						
+					
+				</td>
+			</tr>
+			{% endfor %}
+			{% else %}
+			<tr>
+				<td><p class="text-monospace font-italic">empty</p></td>
+				<td><p class="text-monospace font-italic">empty</p></td>
+				<td><p class="text-monospace font-italic">empty</p></td>
+				<td>
+					<button class="btn btn-primary btn-sm btn-shadow" disabled style="box-shadow: none;">Editar</button>
+					<button type="button" class="btn btn-danger btn-sm btn-shadow" disabled style="box-shadow: none;">Eliminar</button>
+				</td> 
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+	<div class="text-left">
+	<button type="button" class="btn btn-primary btn-shadow" data-toggle="modal" data-target="#proxmoxModal">Agregar</button>
+	</div>
+</div>
+<br>
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+	<h2 class="info-header">Información de la base de datos de Zabbix</h2>
+	<table class="table table-sm">
+		<thead class="thead-dark">
+		  <tr>
+			<th scope="col" class="first">User</th>
+			<th scope="col">IP</th>
+			<th scope="col" class="last">Acciones</th>
+			<!-- <th scope="col">Proxmox</th> -->
+		  </tr>
+		</thead>
+		<tbody>
+			{% if zabbix %}
+			{% for server in zabbix %}
+			<tr>
+				<td>{{server.username}}</td>
+				<td>{{server.address}}</td>
+				<td>
+					<button type="button" data-toggle="modal" data-target="#zabbixEditModal" class="btn btn-primary btn-sm btn-shadow" >Editar</button>
+					<button type="button" data-toggle="modal" data-target="#delzabModal" class="btn btn-danger btn-sm btn-shadow" >Eliminar</button>
+					<!-- Modal para editar datos de Zabbix -->
+					{% include 'modals/modal_zab_edit.html' %}
+					<!-- Modal para eliminar datos de Zabbix -->
+					{% include 'modals/delete_zabbix.html' %}
+
+				</td>
+				
+			</tr>
+			{% endfor %}
+			{% else %}
+			<tr>
+				<td><p class="text-monospace font-italic">empty</p></td>
+				<td><p class="text-monospace font-italic">empty</p></td>
+				<td>
+					<button class="btn btn-primary btn-sm btn-shadow" disabled style="box-shadow: none;">Editar</button>
+					<button class="btn btn-danger btn-sm btn-shadow" disabled style="box-shadow: none;">Eliminar</button>
+				</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+	
+	<div class="text-left">
+	{% if not zabbix %}
+	<button type="button" class="btn btn-primary btn-shadow" data-toggle="modal" data-target="#zabbixModal"> Agregar </button>
+	{% else %}
+	<button type="button" class="btn btn-primary btn-shadow" disabled style="box-shadow: none;"> Agregar </button>
+	{% endif %}
+	</div>
+	
+</div>
+
+{% include "modals/modal_prox_form.html" %}
+{% if not zabbix %}
+{% include "modals/modal_zab_form.html" %}
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+<footer>
+	<hr class="my-4">
+	<small><i>Copyright &copy; 2018-2019  A.M.H.</i></small>
+</footer>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/revealPass.js' %}"></script>
+{% endblock %}

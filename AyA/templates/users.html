@@ -1,0 +1,57 @@
+ {% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Lilipad: Usuarios{%endblock%}
+
+{% block content %}
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+{% if object_list %}
+<h1 class="display-5 info-header">Usuarios</h1>
+{% else %}
+<h1 class="display-5 info-header" style="text-align: center;">No se han insertado las relaciones de usuarios</h1>
+{% endif %}
+<table class="table">
+	<thead class="thead-dark">
+	  <tr>
+		<th scope="col" class="first">Usuarios Actuales</th>
+		<th scope="col">Usuarios Nuevos</th>
+		<th scope="col" class="last">Usuarios Futuros</th>
+	  </tr>
+	</thead>
+	<tbody>
+		{% if object_list %}
+		{% for users in object_list %}
+		<tr>
+			<td>{{users.current_users}}</td>
+			<td>{{users.new_users}}</td>
+			<td>{{users.future_users}}</td>
+		</tr>	
+	</tbody>
+</table>
+		<div class="options" >
+		<button type="button" data-toggle="modal" data-target="#usersEditModal" class="btn btn-primary btn-sm btn-shadow">Editar</button>
+		<button type="button" data-toggle="modal" data-target="#delusersModal" class="btn btn-danger btn-sm btn-shadow">Eliminar</button>
+		<!-- Modal para editar usuarios -->
+		{% include 'modals/edit_users.html' %}
+		<!-- Modal para eliminar usuarios -->
+		{% include 'modals/delete_users.html' %}
+		</div>
+		{% endfor %}
+		{% else %}
+		<tr>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+			<td><p class="text-monospace font-italic">empty</p></td>
+		</tr>
+	</tbody>
+</table>
+<div>
+	<h1></h1>
+	<button type="button" data-toggle="modal" data-target="#usersFormModal" class="btn btn-primary btn-sm btn-shadow">Insertar Usuarios</button>
+	<!-- Modal para insertar usuarios -->
+	{% include 'modals/users_form.html' %}
+</div>
+{% endif %}
+
+</div>
+
+{% endblock %}

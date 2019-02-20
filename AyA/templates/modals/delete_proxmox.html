@@ -1,0 +1,22 @@
+<div class="modal fade" id="del{{server.servername}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<h5 class="modal-title" id="exampleModalLabel">ZabbixDB Datos</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
+			</div> 
+			<div class="modal-body">
+				<p>Esta seguro que desa eliminar el registro del servidor proxmox "{{server.servername}}"</p>
+			</div> 
+			
+			<div class="modal-footer">
+				<form method="post" action="{% url 'servers:delete_prox' server.id %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-danger btn-sm btn-shadow">Si, eliminar</button>
+				</form>
+				<button type="button" class="btn btn-secondary btn-sm btn-shadow" data-dismiss="modal">Cancelar</button> 
+				
+			</div> 
+		</div> 
+	</div> 
+</div>

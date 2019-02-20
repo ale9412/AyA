@@ -1,0 +1,19 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document"> 
+		<div class="modal-content"> 
+			<div class="modal-header"> 
+				<h5 class="modal-title" id="exampleModalLabel">Primer Paso</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
+			</div> 
+			<div class="modal-body">
+				<p>Primero, lo primero, es necesario insertar los datos de los servidores Proxmox y la base de datos de Zabbix</p>
+			</div> 
+			<div class="modal-footer"> 
+				<form method="get" action="{% url 'servers:servers_list' %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-primary btn-shadow">Continuar</button>
+				</form>
+			</div> 
+		</div> 
+	</div> 
+</div>

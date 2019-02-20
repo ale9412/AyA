@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Formulario de Datos{% endblock %}
+
+
+{% block content %}
+<div style="text-align: center;">
+  <h1 class="display-3">Insertar Datos</h1>
+  <p class="lead">Como primero paso del procedimiento es necesario recopilar los datos necesarios de los servidores para el acceso remoto. Inserte los datos de todos los servidores de proxmox a monitorizar, asi como de la base de datos de Zabbix</p>
+  <hr class="my-4">
+  <p class="lead">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#proxmoxModal"> Proxmox </button>
+  {% if not zabbix %}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#zabbixModal"> Zabbix </button>
+  {% endif %}
+    
+  </p>
+
+{% include "modal_prox_form.html" %}
+
+{% include "modal_zab_form.html" %}
+
+</div>
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/revealPass.js' %}"></script>
+{% endblock %}

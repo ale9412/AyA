@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Lilipad: Homepage{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block content %}
+
+<div class="shadow-lg p-3 mb5 bg-white rounded">
+	<h1 id="shadowMove" class="display-3">Bienvenido</h1>
+	<!--<h3><span id="test"></span></h3>-->
+	<p class="lead"><a href="{% url 'servicios:about' %}" target=blank data-toggle="tooltip" data-placement="top" title="About Lilipad">Lilipad</a> es una herramienta para dimensionar centros de datos soportados en Proxmox y monitorizados por la herramienta Zabbix.</p>
+<figure>
+	<img src="{% static 'img/lilybig.png' %}" height=50 weight=50 alt="Lilipad">
+	<figcaption>Lilipad</figcaption>
+</figure>
+	<div class="content">
+	<hr class="my-4">
+	<p><small>Esta herramienta fue construida con Django y Bootstrap.</small></p>
+	<p class="lead">
+		{% if not Proxmox and not Zabbix %}
+	<button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary btn-lg shadow-lg p-3 mb5 rounded" >Empezar</button>
+	{% else %}
+	<a role="button" class="btn btn-primary btn-lg shadow-lg p-3 mb5 rounded" href="{% url 'servers:servers_list' %}">Empezar</a>
+	{% endif %}
+	</p>
+	</div>
+</div>
+
+
+<!-- Modal --> 
+{% include 'modals/first_step_modal.html' %}
+
+
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/shadows.js' %}"></script>
+{% endblock %}
+
+

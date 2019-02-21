@@ -1,5 +1,6 @@
 from django.conf.urls import url
-from services.views import ServiceListView,DeleteAllView, gather_service,About,start_procedure
+from services.views import ServiceListView,DeleteAllView, gather_service,About,start_procedure,currentUtilization,\
+    FutureUtilization
 
 app_name = 'services'
 
@@ -15,5 +16,5 @@ urlpatterns = [
 
 urlpatterns = [
 	url('^current/',currentUtilization,name='current'),
-	url('^future/',FutureUtilization.as_view(),name='future'),
+	# url('^future/',FutureUtilization.as_view(),name='future'),
 ]

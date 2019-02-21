@@ -64,18 +64,19 @@ def start_procedure(requets):
 
 
 def currentUtilization(request):
-	template_name = 'current_util.html'
-	if request.GET.get('metric') and request.GET.get('hypervisor'):
-		metric = request.GET.get('metric')
-		hypervisor = request.GET.get('hypervisor')
-		CurrentUtilization.objects.filter(metric=metric,hypervisor=hypervisor).order_by('servicio')
-	else:
-		model = RAM.objects.all().order_by('servicio')
-		metric = 'RAM'
-	paginator = Paginator(model, 9) 
-	page = request.GET.get('page')
-	model_paginated = paginator.get_page(page)
-	return render(request, template_name, {'page_obj':model_paginated, 'metric':metric})
+    template_name = 'current_util.html'
+    if request.GET.get('metric') and request.GET.get('hypervisor'):
+        metric = request.GET.get('metric').lower()
+        hypervisor = request.GET.get('hypervisor').lower()
+        services_list = Servicio.objects.filter(hypervisor=hypervisor)
+        model = CurrentUtilization.objects.filter(metric=metric,servicio__in=services_list).order_by('servicio')
+    else:
+        model = CurrentUtilization.objects.all().order_by('servicio')
+        metric = 'ram'
+    paginator = Paginator(model, 9) 
+    page = request.GET.get('page')
+    model_paginated = paginator.get_page(page)
+    return render(request, template_name, {'page_obj':model_paginated, 'metric':metric})
 
 class FutureUtilization(TemplateView):
-	template_name = 'future_util.html'
+    template_name = 'future_util.html'

@@ -66,11 +66,12 @@ def currentUtilization(request):
         model = CurrentUtilization.objects.filter(metric=metric,servicio__in=services_list).order_by('servicio')
     else:
         model = CurrentUtilization.objects.all().order_by('servicio')
-        metric = 'ram'
+        metric = 'RAM'
+        hypervisor = 'LXC'
     paginator = Paginator(model, 9) 
     page = request.GET.get('page')
     model_paginated = paginator.get_page(page)
-    return render(request, template_name, {'page_obj':model_paginated, 'metric':metric})
+    return render(request, template_name, {'page_obj':model_paginated, 'metric':metric,'hypervisor':hypervisor})
 
 class FutureUtilization(TemplateView):
     template_name = 'future_util.html'

@@ -63,14 +63,16 @@
 		</tr>	
 	</tbody>
 </table>
+<div class="text-center">
+	<form method="post" action="{% url 'services:gather_service' %}">
+		{% csrf_token %}
+		<button class="btn btn-primary btn-shadow" type="submit">Buscar</button>
+	</form>
+	</div>
 </div>
 <br>
-<div class="text-center">
-<form method="post" action="{% url 'servicios:gather_service' %}">
-	{% csrf_token %}
-	<button class="btn btn-primary btn-shadow" type="submit">Buscar</button>
-</form>
-</div>
+
+
 {% endif %}
 
 <div class="modal fade" id="serviceDel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -85,7 +87,7 @@
 			</div> 
 			
 			<div class="modal-footer">
-				<form method="post" action="{% url 'servicios:delete_all' %}">
+				<form method="post" action="{% url 'services:delete_all' %}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-danger btn-sm btn-shadow">Si, borrar</button>
 					<button type="button" class="btn btn-secondary btn-sm btn-shadow" data-dismiss="modal">Cancelar</button>

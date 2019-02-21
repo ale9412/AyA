@@ -27,10 +27,10 @@ class ServiceListView(ListView):
     context_object_name = 'service_list'
     paginate_by = 9
 
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = DateRangeForm
-        return context
+    # def get_context_data(self,**kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['form'] = DateRangeForm
+    #     return context
 
     
 class DeleteAllView(View):

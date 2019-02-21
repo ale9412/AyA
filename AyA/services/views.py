@@ -6,7 +6,6 @@ from django.urls import reverse_lazy
 
 from services.utils import get_content,create_jsons
 from data.models import ProxmoxData,ZabbixDB
-from data.forms import DateRangeForm
 from services.models import Servicio,CurrentUtilization
 
 class Homepage(TemplateView):

@@ -2,10 +2,10 @@
 	<div class="modal-dialog" role="document"> 
 		<div class="modal-content"> 
 			<div class="modal-header"> 
-				<h5 class="modal-title" id="exampleModalLabel">Datos Usuarios</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Datos Adicionales</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
 			</div> 
-			<form action="{% url 'users:insert_users' %}" method="post">
+			<form action="{% url 'data:insert_users' %}" method="post">
 				{% csrf_token %}
 				<div class="modal-body">
 
@@ -31,8 +31,22 @@
 						<small id="passwordHelpBlock" class="form-text text-muted">
 							You must insert numbers
 						</small>
-					</div>		
+					</div>
+					<div class="form-group">
+						<label for="{{form.start_time.name}}"><p class="font-weight-bold font-italic">{{form.start_time.label}}</p></label>
+						{{form.start_time}}
+						<small id="passwordHelpBlock" class="form-text text-muted">
+							You must insert numbers
+						</small>
+					</div>			
 				</div> 
+				<div class="form-group">
+					<label for="{{form.end_time.name}}"><p class="font-weight-bold font-italic">{{form.end_time.label}}</p></label>
+					{{form.end_time}}
+					<small id="passwordHelpBlock" class="form-text text-muted">
+						Please obey the requeted format
+					</small>
+				</div>
 			
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-primary btn-shadow">Save changes</button>

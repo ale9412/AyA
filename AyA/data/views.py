@@ -35,35 +35,35 @@ class ProxmoxDataView(CreateView):
     template_name = 'servers_data.html'
     form_class = ProxmoxForm
     model = ProxmoxData
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
     
 class ZabbixDataView(CreateView):
     template_name = 'servers_data.html'
     form_class = ZabbixForm
     model = ZabbixDB
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
 
 class ProxmoxUpdateView(UpdateView):
     template_name = "servers_data.html"
     model = ProxmoxData
     form_class = ProxmoxForm
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
 
 class ZabbixUpdateView(UpdateView):
     template_name = "servers_data.html"
     model = ZabbixDB
     form_class = ZabbixForm
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
 
 class ProxmoxDelete(DeleteView):
     template_name = 'servers_list'
     model = ProxmoxData
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
 
 class ZabbixDelete(DeleteView):
     template_name = 'servers_list'
     model = ZabbixDB
-    success_url = reverse_lazy('servers:servers_list')
+    success_url = reverse_lazy('data:servers_list')
 
 
 class ShowUsers(View):
@@ -79,18 +79,18 @@ class InsertUsers(CreateView):
     template_name = 'create_users.html'
     form_class = ExtraDataForm
     model = ExtraData
-    success_url = reverse_lazy('users:user_list')
+    success_url = reverse_lazy('data:user_list')
 
 class EditUsers(UpdateView):
     template_name = 'create_users.html'
     form_class = ExtraDataForm
     model = ExtraData
-    success_url = reverse_lazy('users:user_list')
+    success_url = reverse_lazy('data:user_list')
 
 class DeleteUsers(DeleteView):
     template_name = 'delete_users.html'
     model = ExtraData
-    success_url = reverse_lazy('users:user_list')
+    success_url = reverse_lazy('data:user_list')
 
 
 

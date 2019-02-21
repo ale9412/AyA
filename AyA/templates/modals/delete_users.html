@@ -10,7 +10,7 @@
 			</div> 
 			
 			<div class="modal-footer">
-				<form method="post" action="{% url 'users:delete_users' users.id%}">
+				<form method="post" action="{% url 'data:delete_users' users.id%}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-danger btn-sm btn-shadow">Si, eliminar</button>
 				</form>

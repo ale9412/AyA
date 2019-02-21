@@ -5,7 +5,7 @@
 				<h5 class="modal-title" id="exampleModalLabel">Editar Datos Usuarios</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
 			</div> 
-			<form action="{% url 'users:edit_users' users.id %} " method="post">
+			<form action="{% url 'data:edit_users' users.id %} " method="post">
 				{% csrf_token %}
 				<div class="modal-body">
 

@@ -77,6 +77,6 @@ class ExtraDataForm(forms.ModelForm):
             'current_users':forms.TextInput(attrs={'class':'form-control','placeholder':'Usuarios Actuales','pattern':r'\d+'}),
             'new_users':forms.TextInput(attrs={'class':'form-control','placeholder':'Usuarios Nuevos','pattern':r'\d+'}),
             'future_users':forms.TextInput(attrs={'class':'form-control','placeholder':'Usuarios Futuros','pattern':r'\d+'}),
-            'start_time':forms.DateTimeInput(attrs={'class':'form-control','placeholder':r'dd/mm/yyyy HH:MM','pattern':'\d{2}/\d{2}/\d{4} \d{2}:\d{2}'}),
-            'end_time':forms.DateTimeInput(attrs={'class':'form-control','placeholder':r'dd/mm/yyyy HH:MM','pattern':'\d{2}/\d{2}/\d{4} \d{2}:\d{2}'}),
+            'start_time':forms.DateTimeInput(attrs={'class':'form-control','placeholder':r'dd/mm/yyyy HH:MM','pattern':r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}'}),
+            'end_time':forms.DateTimeInput(attrs={'class':'form-control','placeholder':r'dd/mm/yyyy HH:MM','pattern':r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}'}),
         }

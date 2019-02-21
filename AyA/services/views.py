@@ -56,12 +56,6 @@ def gather_service(request):
         return redirect('services:servicios_listar')
     return render(request,'servicios.html')
 
-def start_procedure(requets):
-    if requets.method == 'POST':
-        create_jsons(ProxmoxData,ZabbixDB)
-        return redirect('services:servicios_listar')
-
-
 
 def currentUtilization(request):
     template_name = 'current_util.html'

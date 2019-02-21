@@ -8,7 +8,7 @@ class Servicio(models.Model):
     hostid = models.IntegerField(primary_key=True)
     hypervisor = models.CharField("Hypervisor",max_length=30)
     cores = models.IntegerField(verbose_name="Nucleos")
-    core_freq = models.DecimalField(verbose_name='Frequencia del procesador', decimal_places=3)
+    core_freq = models.DecimalField(verbose_name='Frequencia del procesador', decimal_places=3,max_digits=10)
 
     def __str__(self):
     	return '{}'.format(self.name)

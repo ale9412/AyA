@@ -13,12 +13,9 @@ urlpatterns = [
     url(r'^delete_zab/(?P<pk>\d+)/',ZabbixDelete.as_view(),name='delete_zab'),
     url(r'^update_prox/(?P<pk>\d+)/',ProxmoxUpdateView.as_view(),name='update_prox'),
     url(r'^update_zab/(?P<pk>\d+)/',ZabbixUpdateView.as_view(),name='update_zab'),
-    ]
-
-urlpatterns = [
     url(r'edit_users/(?P<pk>\d+)/',EditUsers.as_view(), name='edit_users'),
     url('user_list/',ShowUsers.as_view(),name='user_list'),
     url('insert_users/',InsertUsers.as_view(),name='insert_users'),
     url(r'delete_users/(?P<pk>\d+)/',DeleteUsers.as_view(), name='delete_users'),
     url('user_list/',ShowUsers.as_view(),name='user_list'),    
-]
+    ]

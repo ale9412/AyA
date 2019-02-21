@@ -12,9 +12,7 @@ urlpatterns = [
     url('^gather_service/',gather_service,name='gather_service'),
     url('^about/',About.as_view(),name='about'),
     url('^start_procedure/',start_procedure, name='start_procedure'),
+    url('^current/',currentUtilization,name='current'),
+    url('^future/',FutureUtilization.as_view(),name='future'),
 ]
 
-urlpatterns = [
-	url('^current/',currentUtilization,name='current'),
-	# url('^future/',FutureUtilization.as_view(),name='future'),
-]

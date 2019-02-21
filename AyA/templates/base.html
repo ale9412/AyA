@@ -26,20 +26,20 @@
 				<div class="collapse navbar-collapse" id="navbarColor01">
 				  <ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-					  	<a class="nav-link" href="{% url 'servers:servers_list' %}">Servidores</a>
+					  	<a class="nav-link" href="{% url 'data:servers_list' %}">Servidores</a>
 					</li>
 					<li class="nav-item">
-					  	<a class="nav-link" href="{% url 'users:user_list' %}">Usuarios</a>
+					  	<a class="nav-link" href="{% url 'data:user_list' %}">Usuarios</a>
 					</li>
 					<li class="nav-item">
-					  	<a class="nav-link" href="{% url 'servicios:servicios_listar' %}}">Servicios</a>
+					  	<a class="nav-link" href="{% url 'services:servicios_listar' %}}">Servicios</a>
 					</li>
 					<li class="nav-item dropdown">
 
 					  	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Utilización</a>
 					  	<div class="dropdown-menu show" aria-labelledby="navbarDropdownMenuLink">
-					  		<a class="dropdown-item" href="{% url 'utilization:current' %}">Utilización Actual</a>
-					  		<a class="dropdown-item" href="{% url 'utilization:future' %}">Utilización Futura</a>
+					  		<a class="dropdown-item" href="{% url 'services:current' %}">Utilización Actual</a>
+					  		<a class="dropdown-item" href="{% url 'services:future' %}">Utilización Futura</a>
 					  	</div>
 					</li>
 				  </ul>

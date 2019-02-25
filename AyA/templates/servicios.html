@@ -7,8 +7,7 @@
 {% if service_list %}
 <h1 class="display-5 info-header">Servicios</h1>
 {% else %}
-
-<h1 class="display-5 info-header">No existen registros de servicios</h1>
+<h1 class="display-5 info-header">No hay registros de servicios {{hypervisor}} para mostrar</h1>
 {% endif %}
 <table class="table table-bordered table-sm">
 	<thead class="thead-dark">
@@ -17,7 +16,7 @@
 			<th scope="col">Hostid</th>
 			<th scope="col">Hypervisor</th>
 			<th scope="col">Proxmox</th>
-			<th scope="col" class="last">Descripcion</th>
+			<th scope="col" class="last">Cores</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,8 +26,8 @@
 			<td><p class="font-weight-bold">{{servicio.name}}</p></td>
 			<td>{{servicio.hostid}}</td>
 			<td>{{servicio.hypervisor}}</td>
-			<td>{{servicio.proxmox_ip}}</td>
-			<td>{{servicio.description}}</td>
+			<td>{{servicio.proxmox}}</td>
+			<td>{{servicio.cores}}</td>
 		</tr>
 
 		{% endfor %}
@@ -50,7 +49,7 @@
 	</nav>
 
 <br>
-<button class="btn btn-danger btn-shadow" data-toggle="modal" data-target="#serviceDel"">Borrar</button>
+
 
 </div>
 		{% else %}

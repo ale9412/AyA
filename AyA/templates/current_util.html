@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
 {% load staticfiles %}
 {% block title %}Lilipad: Utilización Actual{% endblock %}
 
@@ -10,10 +10,15 @@
 		{% csrf_token %}
 		<div class="input-group selector">
 			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
-				<option selected="" value="">Choose</option>
-				<option value="RAM">RAM</option>
-				<option value="CPU">CPU</option>
+				<option selected="" value="">Métrica</option>
+				<option value="ram">RAM</option>
+				<option value="cpu">CPU</option>
 				<option value="Disco">Disco</option>
+			</select>
+			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
+				<option selected="all" value="">Hypervisor</option>
+				<option value="ram">LXC</option>
+				<option value="cpu">KVM</option>
 			</select>
 			<div class="input-group-append">
 				<button class="btn btn-outline-primary selector" id="buttonSelector" type="submit">Seleccionar</button>
@@ -23,7 +28,7 @@
 
 	<div class="title">
 		<h1 id="selectHead" class="display-5 info-header">{% if page_obj %}Utilización {{metric}}
-		{% else %}No existen servicios registrados, <a href="{% url 'servicios:servicios_listar' %}">insértelos</a>{% endif %}</h1>
+		{% else %}No existen datos para mostrar{% endif %}</h1>
 	</div>
 	<table class="table table-bordered table-sm">
 		<thead class="thead-dark">
@@ -39,7 +44,7 @@
 			{% for value in page_obj %}
 
 			<tr>
-				<td><p class="font-weight-bold">{{value.servicio}}</p></td>
+				<td><p class="font-weight-bold">{{value.service}}</p></td>
 				<td>{{value.average}}</td>
 				<td>{{value.maximum}}</td>
 				<td>{{value.percentil}}</td>

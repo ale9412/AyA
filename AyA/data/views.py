@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from datetime import datetime as dt
+
+from django.shortcuts import render,redirect
 from django.views import View
 from django.views.generic import CreateView,DeleteView,UpdateView,TemplateView
 from django.urls import reverse_lazy
@@ -7,18 +9,8 @@ from data.forms import ProxmoxForm,ZabbixForm
 from data.models import ProxmoxData,ZabbixDB
 from data.forms import ExtraDataForm
 from data.models import ExtraData
-
-class Homepage(TemplateView):
-    template_name = 'homepage.html'
-
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
-        context['Proxmox'] = ProxmoxData.objects.first()
-        context['Zabbix'] = ZabbixDB.objects.first()
-        return context
-
-class About(TemplateView):
-    template_name = 'about.html'
+from services.utils import get_content
+from services.models import Servicio
 
 class ServerList(View):
     context = {}
@@ -44,7 +36,7 @@ class ZabbixDataView(CreateView):
     success_url = reverse_lazy('data:servers_list')
 
 class ProxmoxUpdateView(UpdateView):
-    template_name = "servers_data.html"
+    # template_name = "servers_data.html"
     model = ProxmoxData
     form_class = ProxmoxForm
     success_url = reverse_lazy('data:servers_list')
@@ -70,22 +62,48 @@ class ShowUsers(View):
     template_name = 'users.html'
     form = ExtraDataForm
     context = {}
+    
     def get(self,request,*args,**kwargs):
+        proxmox = ProxmoxData.objects.first()
+        zabbix = ZabbixDB.objects.first()
+        extra_data = ExtraData.objects.first()
+        error = "No es posible iniciar el procedimiento porque no se han especificado todos los datos requeridos, por favor revise las instrucciones"
         self.context['form'] = self.form
-        self.context['object_list'] = ExtraData.objects.all()
+        self.context['data'] = ExtraData.objects.first()
+        if not all([proxmox,zabbix,extra_data]):
+            self.context["Error"] = error
+        else:
+            if "Error" in self.context:
+                self.context.pop("Error")
         return render(request,self.template_name,self.context)
 
+    def post(self,request,*args,**kwargs):
+        Servicio.objects.all().delete()
+        get_content(Servicio,ProxmoxData)
+        return redirect("services:servicios_lxc")
+        
 class InsertUsers(CreateView):
-    template_name = 'create_users.html'
     form_class = ExtraDataForm
     model = ExtraData
     success_url = reverse_lazy('data:user_list')
+
 
 class EditUsers(UpdateView):
     template_name = 'create_users.html'
     form_class = ExtraDataForm
     model = ExtraData
     success_url = reverse_lazy('data:user_list')
+
+    def post(self,request,*args,**kwargs):
+        start = request.POST['start_time']
+        end = request.POST['end_time']
+        date_format = '%d/%m/%Y'
+        if dt.strptime(start,date_format) >= dt.strptime(end,date_format):
+            self.object = self.get_object()
+            form = self.get_form()
+            return redirect('data:user_list')
+        return super().post(request,*args,**kwargs)
+
 
 class DeleteUsers(DeleteView):
     template_name = 'delete_users.html'

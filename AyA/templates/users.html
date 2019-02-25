@@ -4,54 +4,100 @@
 
 {% block content %}
 <div class="shadow-lg p-3 mb5 bg-white rounded">
-{% if object_list %}
-<h1 class="display-5 info-header">Usuarios</h1>
+
+{% if data %}
+<h1 class="display-5 info-header">Datos Adicionales</h1>
+<br>
+<div class="usersAmounts">
+	<div class="usersType">
+		<h3 class="display-5 info-header header-title">Usuarios Actuales:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.current_users}}</b>{% else %}No se han insertado la cantidad de usuarios actuales{% endif %}
+		</h3>
+	</div>
+	<div class="usersType">
+		<h3 class="display-5 info-header header-title">Usuarios Nuevos:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.new_users}}</b>{% else %}No se han insertado la cantidad de usuarios nuevos{% endif %}
+		</h3>
+	</div>
+	<div class="usersType">
+		<h3 class="display-5 info-header header-title">Usuarios Futuros:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.future_users}}</b>{% else %}No se han insertado la cantidad de usuarios futuros{% endif %}
+		</h3>
+	</div>
+</div>
+
+<br>
+<div class="dateInfo">
+	<div class="date">
+		<h3 class="display-5 info-header header-title">Tiempo de Inicio:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.start_time}}</b>{% else %}No se ha insertado fecha de inicio{% endif %}
+		</h3>
+	</div>
+	<!-- <div class="date hidden">
+		<h3 class="display-5 info-header header-title">Tiempo de Inicio:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.start_time}}</b>{% else %}No se ha insertado fecha de inicio{% endif %}
+		</h3>
+	</div> -->
+	<div class="date endDate">
+		<h3 class="display-5 info-header header-title">Tiempo Final:</h3>
+		<h3 class="display-5 info-header">
+		{% if data %}<b>{{data.end_time}}</b>{% else %}No se ha insertado fecha final{% endif %}
+		</h3>
+	</div>
+</div>
+
+<br>
+<div class="options" >
+<button type="button" data-toggle="modal" data-target="#usersEditModal" class="btn btn-primary btn-sm btn-shadow">Editar</button>
+<button type="button" data-toggle="modal" data-target="#delusersModal" class="btn btn-danger btn-sm btn-shadow">Eliminar</button>
+<!-- Modal para editar usuarios -->
+{% include 'modals/edit_users.html' %}
+<!-- Modal para eliminar usuarios -->
+{% include 'modals/delete_users.html' %}
+</div>
 {% else %}
-<h1 class="display-5 info-header" style="text-align: center;">No se han insertado las relaciones de usuarios</h1>
-{% endif %}
-<table class="table">
-	<thead class="thead-dark">
-	  <tr>
-		<th scope="col" class="first">Usuarios Actuales</th>
-		<th scope="col">Usuarios Nuevos</th>
-		<th scope="col" class="last">Usuarios Futuros</th>
-	  </tr>
-	</thead>
-	<tbody>
-		{% if object_list %}
-		{% for users in object_list %}
-		<tr>
-			<td>{{users.current_users}}</td>
-			<td>{{users.new_users}}</td>
-			<td>{{users.future_users}}</td>
-		</tr>	
-	</tbody>
-</table>
-		<div class="options" >
-		<button type="button" data-toggle="modal" data-target="#usersEditModal" class="btn btn-primary btn-sm btn-shadow">Editar</button>
-		<button type="button" data-toggle="modal" data-target="#delusersModal" class="btn btn-danger btn-sm btn-shadow">Eliminar</button>
-		<!-- Modal para editar usuarios -->
-		{% include 'modals/edit_users.html' %}
-		<!-- Modal para eliminar usuarios -->
-		{% include 'modals/delete_users.html' %}
-		</div>
-		{% endfor %}
-		{% else %}
-		<tr>
-			<td><p class="text-monospace font-italic">empty</p></td>
-			<td><p class="text-monospace font-italic">empty</p></td>
-			<td><p class="text-monospace font-italic">empty</p></td>
-		</tr>
-	</tbody>
-</table>
+
+<br>
+<h1 class="display-5 info-header">No existen datos para mostrar por favor insértelos</h1>
+<br>
+<small id="passwordHelpBlock" class="form-text text-muted">
+	En este paso se insertarán las relaciones de usuarios tanto existentes, nuevos y futuros necesarios para realizar el dimensionamiento, asi como tambien se insertarán los períodos de tiempo de inicio y fin para aplicar el procedimiento.
+</small>
+<br>
 <div>
-	<h1></h1>
-	<button type="button" data-toggle="modal" data-target="#usersFormModal" class="btn btn-primary btn-sm btn-shadow">Insertar Usuarios</button>
+	
+	<button type="button" data-toggle="modal" data-target="#usersFormModal" class="btn btn-primary btn-sm btn-shadow">Insertar</button>
 	<!-- Modal para insertar usuarios -->
 	{% include 'modals/users_form.html' %}
 </div>
 {% endif %}
+<br>
+<hr class="my-4">
+<br>
+<h1 class="display-5 info-header" style="text-align: center;">Iniciar el procedimiento</h1>
+<p>Pero antes compruebe que:</p>
+<small id="passwordHelpBlock" class="form-text text-muted"><ol>
+	<li>Insertó los datos necesarios para el acceso a los servidores Proxmox y la base de datos de Zabbix</li>
+	<li>Insertó los datos extras necesarios para realizar el dimensionamiento, solicitados arriba</li>
+</ol></small>
 
+<form method="post">
+	{% csrf_token %}
+	<button {% if Error %} type="button" data-toggle="modal" data-target="#errorModal" {% else %} type="submit" {% endif %} class="btn btn-primary btn-shadow">Iniciar Procedimiento</button>
+	{% if Error %}{% include 'modals/start_procedure_error.html' %}{% endif %}
+</form>
 </div>
-
 {% endblock %}
+
+{% block footer %}
+<footer>
+	<hr class="my-4">
+	<small><i>Copyright &copy; 2018-2019  A.M.H.</i></small>
+</footer>
+{% endblock %}
+type="button" data-toggle="modal" data-target="#exampleModal"

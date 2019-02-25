@@ -29,10 +29,14 @@
 					  	<a class="nav-link" href="{% url 'data:servers_list' %}">Servidores</a>
 					</li>
 					<li class="nav-item">
-					  	<a class="nav-link" href="{% url 'data:user_list' %}">Usuarios</a>
+					  	<a class="nav-link" href="{% url 'data:user_list' %}">Inicio</a>
 					</li>
-					<li class="nav-item">
-					  	<a class="nav-link" href="{% url 'services:servicios_listar' %}}">Servicios</a>
+					<li class="nav-item dropdown">
+					  	<a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Servicios</a>
+					  	<div class="dropdown-menu show" aria-labelledby="navbarDropdownMenuLink">
+					  		<a class="dropdown-item" href="{% url 'services:servicios_lxc' %}">LXC</a>
+					  		<a class="dropdown-item" href="{% url 'services:servicios_kvm' %}">KVM</a>
+					  	</div>
 					</li>
 					<li class="nav-item dropdown">
 

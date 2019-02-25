@@ -1,4 +1,4 @@
-body{
+ body{
 	background-image: url('../img/piecem.jpg');
 	background-repeat: repeat-x repeat-y;
 
@@ -110,12 +110,27 @@ thead .last{
 	border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
 }
+
 .dropdown-menu:hover,.dropdown-toggle:hover ~ div{
 	transform: rotateY(0deg) scale(1);
 	transition: all 0.5s;
 	-webkit-transform: rotateY(0deg) scale(1);
 	-webkit-transition: all 0.5s;
 }
+
 footer{
 	color:rgba(44, 39, 39, 0.5);
+}
+
+.usersType, .date{
+	display: inline-block;
+	padding-right:50px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+.header-title{
+	border-bottom: 1px solid rgba(191,191,191,0.6);
 }

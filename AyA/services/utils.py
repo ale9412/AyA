@@ -1,10 +1,13 @@
 import os
 import json
 from django.conf import settings
+from datetime import datetime as dt
 
-
-def create_jsons(ProxmoxData,ZabbixDB):
-    pass
+def start_procedure(ProxmoxData,ZabbixDB,ExtraData):
+    data = ExtraData.objects.first()
+    start_time = dt.strptime(data.start_time,"%d/%m/%Y")
+    end_time = dt.strptime(data.end_time,'%d/%m/%Y')
+    current_users = data.current_users
 
 
 # Esta funcion es en caso de que se utilicen los jsons.
@@ -26,7 +29,7 @@ def get_content(Servicio,Proxmox,path=os.path.join(settings.BASE_DIR,'hosts_meas
                 fp = open(file)
                 service_list = json.load(fp)
                 save_service(Servicio,Proxmox,service_list,ip)
-
+                fp.close()
 
 def save_service(Servicio,Proxmox,service_list,proxmox_ip):
         '''
@@ -47,7 +50,9 @@ def save_service(Servicio,Proxmox,service_list,proxmox_ip):
                                            hypervisor='lxc',
                                            proxmox=proxmox,
                                            hostid=service['hostid'],
-                                           description='')
+                                           cores=service['cores'],
+                                           core_freq=float(service['frecuencia cpu prox']))
+
                     new_service.save()
         except:
             # No existe el proxmox guardado en la base de datos de django

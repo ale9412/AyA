@@ -2,7 +2,7 @@
 	<div class="modal-dialog" role="document"> 
 		<div class="modal-content"> 
 			<div class="modal-header"> 
-				<h5 class="modal-title" id="exampleModalLabel">Borrar Datos Usuarios</h5>
+				<h5 class="modal-title" id="exampleModalLabel">Eliminar</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button> 
 			</div> 
 			<div class="modal-body">
@@ -10,7 +10,7 @@
 			</div> 
 			
 			<div class="modal-footer">
-				<form method="post" action="{% url 'data:delete_users' users.id%}">
+				<form method="post" action="{% url 'data:delete_users' data.id%}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-danger btn-sm btn-shadow">Si, eliminar</button>
 				</form>

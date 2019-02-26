@@ -18,10 +18,12 @@ curr_utilization_path = os.path.join(base_data_path,'utilizacion')
 
 
 def save_utilization():
+        
         for root,dirs,files in os.walk(curr_utilization_path):
                 # Obtener todos los archivos deutilizacion de los servicios
                 utilization_files = files
                 break
+
         for file in utilization_files:
                 service_file = open(os.path.join(curr_utilization_path,file))
                 service_data = json.load(service_file)

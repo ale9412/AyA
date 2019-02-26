@@ -3,16 +3,40 @@ import json
 from django.conf import settings
 from datetime import datetime as dt
 
-def start_procedure(ProxmoxData,ZabbixDB,ExtraData):
-    data = ExtraData.objects.first()
-    start_time = dt.strptime(data.start_time,"%d/%m/%Y")
-    end_time = dt.strptime(data.end_time,'%d/%m/%Y')
-    current_users = data.current_users
+from data.models import ProxmoxData
+from services.models import CurrentUtilization,Servicio
 
+base_data_path = os.path.join(settings.BASE_DIR,'hosts_measurement','data')
+curr_utilization_path = os.path.join(base_data_path,'utilizacion')
+
+
+# def start_procedure(ProxmoxData,ZabbixDB,ExtraData):
+#     data = ExtraData.objects.first()
+#     start_time = dt.strptime(data.start_time,"%d/%m/%Y")
+#     end_time = dt.strptime(data.end_time,'%d/%m/%Y')
+#     current_users = data.current_users
+
+
+def save_utilization():
+        for root,dirs,files in os.walk(curr_utilization_path):
+                # Obtener todos los archivos deutilizacion de los servicios
+                utilization_files = files
+                break
+        for file in utilization_files:
+                service_file = open(os.path.join(curr_utilization_path,file))
+                service_data = json.load(service_file)
+                service_file.close()
+                utilization = CurrentUtilization(
+                        metric = service_data['item_name'],
+                        service = Servicio.objects.get(name=file.rstrip('.json')),
+                        average = service_data['value_avg'],
+                        maximum = service_data['value_max'],
+                        percentil = service_data['percentil'],
+                )
+                utilization.save()
 
 # Esta funcion es en caso de que se utilicen los jsons.
-
-def get_content(Servicio,Proxmox,path=os.path.join(settings.BASE_DIR,'hosts_measurement','data')):
+def get_content(path=base_data_path):
 
         # Ir por cada archivo y extraer los datos para guardar en Django
         #path: archivo donde se encuentran los archivos
@@ -21,15 +45,25 @@ def get_content(Servicio,Proxmox,path=os.path.join(settings.BASE_DIR,'hosts_meas
             if root == path:
                 jsons = [os.path.join(root,file) for file in files if file.endswith('.json') and file.startswith('10.8')]
                 break
-        #print(jsons)
+        
+        
+
+        for root,dirs,files in os.walk(curr_utilization_path):
+                # Obtener todos los archivos deutilizacion de los servicios
+                utilization_files = files
+                break
+
         ips = [os.path.splitext(os.path.basename(json))[0] for json in jsons]
         
         for file,ip in zip(jsons,ips):
                 print('\nProcessing file:',os.path.basename(file)+'\n\n')
                 fp = open(file)
                 service_list = json.load(fp)
-                save_service(Servicio,Proxmox,service_list,ip)
                 fp.close()
+                save_service(Servicio,ProxmoxData,service_list,ip)
+
+        save_utilization()
+                
 
 def save_service(Servicio,Proxmox,service_list,proxmox_ip):
         '''

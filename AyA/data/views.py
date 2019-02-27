@@ -79,7 +79,7 @@ class ShowUsers(View):
 
     def post(self,request,*args,**kwargs):
         Servicio.objects.all().delete()
-        get_content(Servicio,ProxmoxData)
+        get_content()
         return redirect("services:servicios_lxc")
         
 class InsertUsers(CreateView):

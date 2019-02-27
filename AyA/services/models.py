@@ -17,9 +17,9 @@ class Servicio(models.Model):
 class CurrentUtilization(models.Model):
     metric = models.CharField("Metrica",max_length=30)
     service = models.ForeignKey(Servicio,on_delete=models.CASCADE)
-    average = models.DecimalField(max_digits=7,decimal_places=2)
-    maximum = models.DecimalField(max_digits=7,decimal_places=2)
-    percentil = models.DecimalField(max_digits=7,decimal_places=2)
+    average = models.CharField(max_length=30)
+    maximum = models.CharField(max_length=30)
+    percentil = models.CharField(max_length=30)
 
     def __str__(self):
     	return '{}'.format(self.metric)

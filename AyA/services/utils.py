@@ -18,26 +18,28 @@ curr_utilization_path = os.path.join(base_data_path,'utilizacion')
 
 
 def save_utilization():
-        
+
         for root,dirs,files in os.walk(curr_utilization_path):
                 # Obtener todos los archivos deutilizacion de los servicios
                 utilization_files = files
                 break
 
         for file in utilization_files:
+                print(os.path.splitext(file)[0])
                 service_file = open(os.path.join(curr_utilization_path,file))
                 service_data = json.load(service_file)
                 service_file.close()
-                utilization = CurrentUtilization(
-                        metric = service_data['item_name'],
-                        service = Servicio.objects.get(name=file.rstrip('.json')),
-                        average = service_data['value_avg'],
-                        maximum = service_data['value_max'],
-                        percentil = service_data['percentil'],
-                )
-                utilization.save()
+                for metric in service_data:
+                        utilization = CurrentUtilization(
+                                metric = metric['item_name'],
+                                service = Servicio.objects.get(name=os.path.splitext(file)[0]),
+                                average = metric['value_avg'],
+                                maximum = metric['value_max'],
+                                percentil = metric['percentil'],
+                        )
+                        utilization.save()
 
-# Esta funcion es en caso de que se utilicen los jsons.
+
 def get_content(path=base_data_path):
 
         # Ir por cada archivo y extraer los datos para guardar en Django
@@ -47,8 +49,7 @@ def get_content(path=base_data_path):
             if root == path:
                 jsons = [os.path.join(root,file) for file in files if file.endswith('.json') and file.startswith('10.8')]
                 break
-        
-        
+
 
         for root,dirs,files in os.walk(curr_utilization_path):
                 # Obtener todos los archivos deutilizacion de los servicios
@@ -56,11 +57,12 @@ def get_content(path=base_data_path):
                 break
 
         ips = [os.path.splitext(os.path.basename(json))[0] for json in jsons]
-        
+        print("Len ips",len(ips))
         for file,ip in zip(jsons,ips):
                 print('\nProcessing file:',os.path.basename(file)+'\n\n')
                 fp = open(file)
                 service_list = json.load(fp)
+                print(len(service_list))
                 fp.close()
                 save_service(Servicio,ProxmoxData,service_list,ip)
 

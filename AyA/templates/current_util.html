@@ -11,9 +11,14 @@
 		<div class="input-group selector">
 			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
 				<option selected="" value="">Métrica</option>
-				<option value="ram">RAM</option>
-				<option value="cpu">CPU</option>
-				<option value="Disco">Disco</option>
+				<option value="RAM-used">RAM</option>
+				<option value="CPU Usage">CPU</option>
+				<option value="Used disk space on $1">Disco Space</option>
+				<option value="Incoming network traffic on $1">RedRx</option>
+				<option value="Outgoing network traffic on $1">RedTx</option>
+				<option value="iostat.sda">Iostat</option>
+				<option value="read.sda">Disco Read</option>
+				<option value="write.sda">Disco Write</option>
 			</select>
 			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
 				<option selected="all" value="">Hypervisor</option>

@@ -82,6 +82,7 @@ def save_service(Servicio,Proxmox,service_list,proxmox_ip):
         try:
             proxmox = Proxmox.objects.get(address=proxmox_ip)
             for service in service_list:
+                    print(service['nombre_servicio'])
                     # Estraer de service cada uno de los campos e insertarlos en el modelo
                     #para guardarlo en la base de dato de Django
                     new_service = Servicio(name=service['nombre_servicio'],

@@ -1,6 +1,6 @@
 import json
 import os
-import mysqldb
+from services import mysqldb
 from datetime import datetime
 #from readingdbmodif import percentil , rank , mean
 from statistics import mean

@@ -2,12 +2,12 @@ import os
 import json
 from django.conf import settings
 from datetime import datetime as dt
-from start import start
+from services.Start import start
 
 from data.models import ProxmoxData,ExtraData,ZabbixDB
 from services.models import CurrentUtilization,Servicio,FutureUtilization
 
-base_data_path = os.path.join(settings.BASE_DIR,'service','data')
+base_data_path = os.path.join(settings.BASE_DIR,'data')
 curr_utilization_path = os.path.join(base_data_path,'utilizacion')
 fut_utilization_path = os.path.join(base_data_path,'futura')
 
@@ -96,8 +96,8 @@ def save_service(service_list,proxmox_ip):
 
 def start_procedure():
     data = ExtraData.objects.first()
-    start_time = dt.strptime(data.start_time,"%d/%m/%Y")
-    end_time = dt.strptime(data.end_time,'%d/%m/%Y')
+    start_time = data.start_time
+    end_time = data.end_time
     current_users = data.current_users
     future_users = data.future_users
     new_users = data.new_users
@@ -112,7 +112,7 @@ def start_procedure():
     zabbix_password = zabbix.password
 
     for ip,passw in zip(ip_proxmox,passw_proxmoxs):
-        start(cuurent_users, new_users, future_users ,ip ,passw ,zabbix_ip ,zabbix_user ,'zabbix' ,zabbix_password ,start_time ,end_time )
+        start(current_users, new_users, future_users ,ip ,passw ,zabbix_ip ,zabbix_user ,'zabbix' ,zabbix_password ,start_time ,end_time )
     
 
 

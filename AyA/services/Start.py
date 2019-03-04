@@ -1,5 +1,5 @@
-from relation import relation_prox_zabbix as rpz
-from utilization import utilization
+from services.relation import relation_prox_zabbix as rpz
+from services.utilization import utilization
 import os
 #TODO:Quitar todos los comentarios y los scripts que no funcionan
 def start(usrs_act, usrs_new, usrs_futrs ,ip_prox ,passwd_prox ,ip_zabbix ,usr_zabbix ,db_zabbix ,passwd_zabbix ,start_time ,end_time ):

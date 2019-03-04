@@ -25,12 +25,12 @@ class CurrentUtilization(models.Model):
     	return '{}'.format(self.metric)
         
 
-##class FutureUtilization(models.Model):
-##    metric = models.CharField("Metrica",max_length=30)
-##    servicio = models.OneToOneField(Servicio,on_delete=models.CASCADE)
-##    average = models.DecimalField(max_digits=7,decimal_places=2)
-##    maximum = models.DecimalField(max_digits=7,decimal_places=2)
-##    percentil = models.DecimalField(max_digits=7,decimal_places=2)
-##
-##    def __str__(self):
-##    	return '{}'.format(self.metric)
+class FutureUtilization(models.Model):
+    metric = models.CharField("Metrica",max_length=30)
+    service = models.ForeignKey(Servicio,on_delete=models.CASCADE)
+    average = models.CharField(max_length=30)
+    maximum = models.CharField(max_length=30)
+    percentil = models.CharField(max_length=30)
+
+    def __str__(self):
+        return '{}'.format(self.metric)

@@ -3,86 +3,80 @@ import json
 from django.conf import settings
 from datetime import datetime as dt
 
-from data.models import ProxmoxData
-from services.models import CurrentUtilization,Servicio
+from data.models import ProxmoxData,ExtraData
+from services.models import CurrentUtilization,Servicio,FutureUtilization
 
 base_data_path = os.path.join(settings.BASE_DIR,'hosts_measurement','data')
 curr_utilization_path = os.path.join(base_data_path,'utilizacion')
-
-
-# def start_procedure(ProxmoxData,ZabbixDB,ExtraData):
-#     data = ExtraData.objects.first()
-#     start_time = dt.strptime(data.start_time,"%d/%m/%Y")
-#     end_time = dt.strptime(data.end_time,'%d/%m/%Y')
-#     current_users = data.current_users
-
+fut_utilization_path = os.path.join(base_data_path,'futura')
 
 def save_utilization():
 
-        for root,dirs,files in os.walk(curr_utilization_path):
-                # Obtener todos los archivos deutilizacion de los servicios
-                utilization_files = files
-                break
+        for root,dirs,files in os.walk(base_data_path):
+                # Obtener todos los archivos de utilizacion actual y futura de los servicios
+                if root == curr_utilization_path:
+                    curr_utilization_files = files
+                elif root == fut_utilization_path:
+                    fut_utilization_files = files
+                else:
+                    continue
 
-        for file in utilization_files:
-                print(os.path.splitext(file)[0])
-                service_file = open(os.path.join(curr_utilization_path,file))
-                service_data = json.load(service_file)
-                service_file.close()
-                for metric in service_data:
-                        utilization = CurrentUtilization(
-                                metric = metric['item_name'],
-                                service = Servicio.objects.get(name=os.path.splitext(file)[0]),
-                                average = metric['value_avg'],
-                                maximum = metric['value_max'],
-                                percentil = metric['percentil'],
+        for current_file,future_file in zip(curr_utilization_files,fut_utilization_files):
+            # Ir por cada archivo y guardar datos en base de datos de Django
+                current_file_handler = open(os.path.join(curr_utilization_path,current_file))
+                future_file_handler = open(os.path.join(fut_utilization_path,future_file))
+
+                c_data = json.load(current_file_handler)
+                f_data = json.load(future_file_handler)
+
+                current_file_handler.close()
+                future_file_handler.close()
+
+                for c_metrics,f_metrics in zip(c_data,f_data):
+                        curr_utilization_model = CurrentUtilization(
+                                metric = c_metrics['item_name'],
+                                service = Servicio.objects.get(name=os.path.splitext(current_file)[0]),
+                                average = c_metrics['value_avg'],
+                                maximum = c_metrics['value_max'],
+                                percentil = c_metrics['percentil'],
                         )
-                        utilization.save()
+
+                        fut_utilization_model = FutureUtilization(
+                            metric = f_metrics['item_name'],
+                            service = Servicio.objects.get(name=os.path.splitext(future_file)[0]),
+                            average = f_metrics['value_avg'],
+                            maximum = f_metrics['value_max'],
+                            percentil = f_metrics['percentil'],
+                            )
+
+                        curr_utilization_model.save()
+                        fut_utilization_model.save()
 
 
-def get_content(path=base_data_path):
-
-        # Ir por cada archivo y extraer los datos para guardar en Django
-        #path: archivo donde se encuentran los archivos
-        #del tipo 'ip_prox.json'
-        for root,dirs,files in os.walk(path):
-            if root == path:
+def get_content():
+        for root,dirs,files in os.walk(base_data_path):
+            if root == base_data_path:
                 jsons = [os.path.join(root,file) for file in files if file.endswith('.json') and file.startswith('10.8')]
                 break
 
-
-        for root,dirs,files in os.walk(curr_utilization_path):
-                # Obtener todos los archivos deutilizacion de los servicios
-                utilization_files = files
-                break
-
         ips = [os.path.splitext(os.path.basename(json))[0] for json in jsons]
-        print("Len ips",len(ips))
+        
         for file,ip in zip(jsons,ips):
-                print('\nProcessing file:',os.path.basename(file)+'\n\n')
+                
                 fp = open(file)
                 service_list = json.load(fp)
-                print(len(service_list))
                 fp.close()
-                save_service(Servicio,ProxmoxData,service_list,ip)
 
+                save_service(service_list,ip)
         save_utilization()
                 
 
-def save_service(Servicio,Proxmox,service_list,proxmox_ip):
-        '''
-
-        1 - Servicio: modelo para almacenar cada servicio
-        2 - service_list: lista con todos los datos por
-        servicio perteneciente a cada proxmox.
-        3 - Este modulo es llamado desde una de las vistas en la
-        seccion servicios al ejecutar un metodo post.
+def save_service(service_list,proxmox_ip):
         
-        '''
         try:
-            proxmox = Proxmox.objects.get(address=proxmox_ip)
+            proxmox = ProxmoxData.objects.get(address=proxmox_ip)
             for service in service_list:
-                    print(service['nombre_servicio'])
+                    
                     # Estraer de service cada uno de los campos e insertarlos en el modelo
                     #para guardarlo en la base de dato de Django
                     new_service = Servicio(name=service['nombre_servicio'],
@@ -99,4 +93,20 @@ def save_service(Servicio,Proxmox,service_list,proxmox_ip):
             return
             
 
+def start_procedure():
+    data = ExtraData.objects.first()
+    start_time = dt.strptime(data.start_time,"%d/%m/%Y")
+    end_time = dt.strptime(data.end_time,'%d/%m/%Y')
+    current_users = data.current_users
+    future_users = data.future_users
+    new_users = data.new_users
 
+    # Falta llamar a los datos de los Proxmox y Zabbix DB
+
+    ###############################################
+    # Tu codigo va aqui 
+    # Seria bueno utilizar multiples procesos para 
+    # agilizar el proceso pq va a ser muy lento
+    ###############################################
+
+    get_content()

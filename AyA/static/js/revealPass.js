@@ -1,13 +1,23 @@
-var selectInput = document.getElementById('Selection');
+var metrictInput = document.getElementById('metric');
+var hypervisorInput = document.getElementById('hypervisor')
 var button = document.getElementById('buttonSelector');
 
-if (selectInput.value === "") {
+if (metrictInput.value === "" || hypervisorInput.value === ""){
+	button.setAttribute('disabled',"");
+	}else{
+		button.removeAttribute('disabled',"");
+	}
+	
+metrictInput.addEventListener("change",function(){
+	if (metrictInput.value === "" || hypervisorInput.value === ""){
 	button.setAttribute('disabled',"");
 	}else{
 		button.removeAttribute('disabled',"")
-	}
-selectInput.addEventListener("change",function(){
-	if (selectInput.value === ""){
+	};
+})
+
+hypervisorInput.addEventListener("change",function(){
+	if (metrictInput.value === "" || hypervisorInput.value === ""){
 	button.setAttribute('disabled',"");
 	}else{
 		button.removeAttribute('disabled',"")
@@ -31,3 +41,9 @@ function showIcon(obj) {
 		img.style.visibility = "visible";
 	};
 }
+
+// function saveToStorage() {
+// 	localStorage.metric = document.getElementById('metric').value;
+// 	localStorage.hypervisor = document.getElementById('hypervisor').value;
+
+// };

@@ -6,10 +6,11 @@
 {% block content %}
 <!-- Seleccionar el tipo de metrica a visualizar para todos los servicios -->
 <div class="shadow-lg p-3 mb5 bg-white rounded">
+
 	<form method="get" >
 		{% csrf_token %}
 		<div class="input-group selector">
-			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
+			<select id='metric' name="metric" class="custom-select" id="inputGroupSelect04">
 				<option selected="" value="">Métrica</option>
 				<option value="RAM-used">RAM</option>
 				<option value="CPU Usage">CPU</option>
@@ -20,19 +21,19 @@
 				<option value="read.sda">Disco Read</option>
 				<option value="write.sda">Disco Write</option>
 			</select>
-			<select id='Selection' name="metric" class="custom-select" id="inputGroupSelect04">
-				<option selected="all" value="">Hypervisor</option>
-				<option value="ram">LXC</option>
-				<option value="cpu">KVM</option>
+			<select id='hypervisor' name="hypervisor" class="custom-select" id="inputGroupSelect04">
+				<option selected="" value="">Hypervisor</option>
+				<option value="lxc">LXC</option>
+				<option value="kvm">KVM</option>
 			</select>
 			<div class="input-group-append">
-				<button class="btn btn-outline-primary selector" id="buttonSelector" type="submit">Seleccionar</button>
+				<button class="btn btn-outline-primary selector" id="buttonSelector" onclick="saveToStorage()" type="submit">Seleccionar</button>
 			</div>
 		</div>
 	</form>
 
 	<div class="title">
-		<h1 id="selectHead" class="display-5 info-header">{% if page_obj %}Utilización {{metric}}
+		<h1 class="display-5 info-header">{% if page_obj %}Utilización <b>{{metric}}</b>
 		{% else %}No existen datos para mostrar{% endif %}</h1>
 	</div>
 	<table class="table table-bordered table-sm">
@@ -70,16 +71,17 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			{% if page_obj.has_previous %}
-				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page=1" disabled>Inicio</a></li>
-				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.previous_page_number}}"><span class="badge badge-light">{{page_obj.previous_page_number}}</span> Previous</a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page=1&metric={{metric}}&hypervisor={{hypervisor}}" disabled>Inicio</a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.previous_page_number}}&metric={{metric}}&hypervisor={{hypervisor}}"><span class="badge badge-light">{{page_obj.previous_page_number}}</span> Previous</a></li>
 			{% endif %}
 			{% if page_obj.has_next %}
-				<li class="page-item"><a class="btn btn-outline-primary btn-sm item" href="?page={{ page_obj.next_page_number}}">Next <span class="badge badge-light">{{page_obj.next_page_number}}</span></a></li>
-				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.paginator.num_pages}}">Fin</a></li>
+				<li class="page-item"><a class="btn btn-outline-primary btn-sm item" href="?page={{ page_obj.next_page_number}}&metric={{metric}}&hypervisor={{hypervisor}}">Next <span class="badge badge-light">{{page_obj.next_page_number}}</span></a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.paginator.num_pages}}&metric={{metric}}&hypervisor={{hypervisor}}">Fin</a></li>
 			{% endif %}
 			
 		</ul>
 	</nav>
+
 </div>
 
 {% endblock %}

@@ -1,9 +1,97 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}Lilipad: Utilización Futura{% endblock %}
 
-{% block title %}Lilipad: Utilización futura{% endblock %}
 
 {% block content %}
+<!-- Seleccionar el tipo de metrica a visualizar para todos los servicios -->
 <div class="shadow-lg p-3 mb5 bg-white rounded">
-	<h1 class="display-5">Utilización futura del centro de datos:</h1>
+
+	<form method="get" >
+		{% csrf_token %}
+		<div class="input-group selector">
+			<select id='metric' name="metric" class="custom-select" id="inputGroupSelect04">
+				<option selected="" value="">Métrica</option>
+				<option value="RAM-used">RAM</option>
+				<option value="CPU Usage">CPU</option>
+				<option value="Used disk space on $1">Disco Space</option>
+				<option value="Incoming network traffic on $1">RedRx</option>
+				<option value="Outgoing network traffic on $1">RedTx</option>
+				<option value="iostat.sda">Iostat</option>
+				<option value="read.sda">Disco Read</option>
+				<option value="write.sda">Disco Write</option>
+			</select>
+			<select id='hypervisor' name="hypervisor" class="custom-select" id="inputGroupSelect04">
+				<option selected="" value="">Hypervisor</option>
+				<option value="lxc">LXC</option>
+				<option value="kvm">KVM</option>
+			</select>
+			<div class="input-group-append">
+				<button class="btn btn-outline-primary selector" id="buttonSelector" onclick="saveToStorage()" type="submit">Seleccionar</button>
+			</div>
+		</div>
+	</form>
+
+	<div class="title">
+		<h1 class="display-5 info-header">{% if page_obj %}Utilización <b>{{metric}}</b>
+		{% else %}No existen datos para mostrar{% endif %}</h1>
+	</div>
+	<table class="table table-bordered table-sm">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col" class="first">Servicio</th>
+				<th scope="col">Avg</th>
+				<th scope="col">Max</th>
+				<th scope="col" class="last">95 Percentil</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if page_obj %}
+			{% for value in page_obj %}
+
+			<tr>
+				<td><p class="font-weight-bold">{{value.service}}</p></td>
+				<td>{{value.average}}</td>
+				<td>{{value.maximum}}</td>
+				<td>{{value.percentil}}</td>
+			</tr>
+
+			{% endfor %}
+			{% else %}
+			<tr>
+				<td><p class="font-weight-bold">empty</p></td>
+				<td>empty</td>
+				<td>empty</td>
+				<td>empty</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			{% if page_obj.has_previous %}
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page=1&metric={{metric}}&hypervisor={{hypervisor}}" disabled>Inicio</a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.previous_page_number}}&metric={{metric}}&hypervisor={{hypervisor}}"><span class="badge badge-light">{{page_obj.previous_page_number}}</span> Previous</a></li>
+			{% endif %}
+			{% if page_obj.has_next %}
+				<li class="page-item"><a class="btn btn-outline-primary btn-sm item" href="?page={{ page_obj.next_page_number}}&metric={{metric}}&hypervisor={{hypervisor}}">Next <span class="badge badge-light">{{page_obj.next_page_number}}</span></a></li>
+				<li class="page-item"  tabindex="-1"><a class="btn btn-outline-primary btn-sm item" href="?page={{page_obj.paginator.num_pages}}&metric={{metric}}&hypervisor={{hypervisor}}">Fin</a></li>
+			{% endif %}
+			
+		</ul>
+	</nav>
 </div>
+
+{% endblock %}
+
+{% block footer %}
+<footer>
+	<hr class="my-4">
+	<small><i>Copyright &copy; 2018-2019  A.M.H.</i></small>
+</footer>
+{% endblock %}
+
+{% block extrajs %}
+<script src="{% static 'js/revealPass.js' %}"></script>
 {% endblock %}

@@ -92,34 +92,46 @@ thead .last{
 	height: 0;
 	border-right: 8px solid transparent;
 	border-left: 8px solid transparent;
-	border-bottom: 10px solid rgba(255,255,255,0.8);
+	border-bottom: 10px solid rgba(255,255,255,1);
 	position: absolute;
-	margin-top: -17px;
+	margin-top: -18px;
 	margin-left: 30px;
 	
 }
 .dropdown-menu{
-	background-color: rgba(255,255,255,0.8);
+	background-color: rgba(255,255,255,1);
 	border-radius: 15px;
-	transform: rotateY(240deg) scale(0);
+	transform: rotateY(180deg) scale(0);
 	transition: all 0.5s;
-	-webkit-transform: rotateY(250deg) scale(0);
-	-webkit-transition: all 0.5s;
+	-webkit-transform: rotateY(180deg) scale(0);
+	-webkit-transition: all 0.6s;
 	padding-left: 1px;
 	padding-right: 1px;
 	border-top-right-radius: 10px;
 	border-top-left-radius: 10px;
 }
 
+.dropdown-item:hover{
+	color: #0E7BF5;
+}
+
+.dropdown-item:focus{
+	background-color: #0E7BF5;
+	color: white;
+}
+
+.dropdown{
+	perspective: 200px;
+}
 .dropdown-menu:hover,.dropdown-toggle:hover ~ div{
 	transform: rotateY(0deg) scale(1);
-	transition: all 0.5s;
+	transition: all 0.6s;
 	-webkit-transform: rotateY(0deg) scale(1);
-	-webkit-transition: all 0.5s;
+	-webkit-transition: all 0.6s;
 }
 
 footer{
-	color:rgba(44, 39, 39, 0.5);
+	color:rgba(232, 238, 242, 0.5);;
 }
 
 .usersType, .date{

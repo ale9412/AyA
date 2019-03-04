@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 
 from services.utils import get_content
 from data.models import ProxmoxData,ZabbixDB
-from services.models import Servicio,CurrentUtilization
+from services.models import Servicio,CurrentUtilization,FutureUtilization
 
 class Homepage(TemplateView):
     template_name = 'homepage.html'
@@ -73,22 +73,58 @@ def gather_service(request):
 
 def currentUtilization(request):
     template_name = 'current_util.html'
-    if request.GET.get('metric') and not request.GET.get('hypervisor') == 'all':
+    print(request.GET.get('metric'))
+    print(request.GET.get('hypervisor'))
+    if request.GET.get('metric') and request.GET.get('hypervisor'):
         metric = request.GET.get('metric')
+        # print(metric)
         hypervisor = request.GET.get('hypervisor')
+        # print(hypervisor)
         services_list = Servicio.objects.filter(hypervisor=hypervisor)
         model = CurrentUtilization.objects.filter(metric=metric,service__in=services_list).order_by('service')
     else:
+        print("nada")
         metric = 'RAM'
-        model = CurrentUtilization.objects.filter(metric=metric.lower()).order_by('service')
+        model = CurrentUtilization.objects.filter(metric=metric).order_by('service')
         hypervisor = 'LXC'
     paginator = Paginator(model, 9) 
     page = request.GET.get('page')
     model_paginated = paginator.get_page(page)
     return render(request, template_name, {'page_obj':model_paginated, 'metric':metric,'hypervisor':hypervisor})
 
+class CurrentUtilizationView(View):
+    template_name = 'current_util.html'
+    metric = None
+    hypervisor = None
 
-class FutureUtilization(TemplateView):
+    def get(self,request,*args,**kwargs):
+        if request.GET.get('metric') and request.GET.get('hypervisor'):
+            self.metric = request.GET.get('metric')
+            self.hypervisor = request.GET.get('hypervisor')
+        services_list = Servicio.objects.filter(hypervisor=self.hypervisor)
+        model = CurrentUtilization.objects.filter(metric=self.metric,service__in=services_list).order_by('service')
+
+        paginator = Paginator(model, 9) 
+        page = request.GET.get('page')
+        model_paginated = paginator.get_page(page)
+        return render(request, self.template_name, {'page_obj':model_paginated, 'metric':self.metric,'hypervisor':self.hypervisor})
+
+
+class FutureUtilizationView(TemplateView):
     template_name = 'future_util.html'
+    metric = None
+    hypervisor = None
+
+    def get(self,request,*args,**kwargs):
+        if request.GET.get('metric') and request.GET.get('hypervisor'):
+            self.metric = request.GET.get('metric')
+            self.hypervisor = request.GET.get('hypervisor')
+        services_list = Servicio.objects.filter(hypervisor=self.hypervisor)
+        model = FutureUtilization.objects.filter(metric=self.metric,service__in=services_list).order_by('service')
+
+        paginator = Paginator(model, 9) 
+        page = request.GET.get('page')
+        model_paginated = paginator.get_page(page)
+        return render(request, self.template_name, {'page_obj':model_paginated, 'metric':self.metric,'hypervisor':self.hypervisor})
 
 

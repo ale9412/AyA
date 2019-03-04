@@ -9,7 +9,7 @@ from data.forms import ProxmoxForm,ZabbixForm
 from data.models import ProxmoxData,ZabbixDB
 from data.forms import ExtraDataForm
 from data.models import ExtraData
-from services.utils import get_content
+from services.utils import start_procedure
 from services.models import Servicio
 
 class ServerList(View):
@@ -79,7 +79,7 @@ class ShowUsers(View):
 
     def post(self,request,*args,**kwargs):
         Servicio.objects.all().delete()
-        get_content()
+        start_procedure()
         return redirect("services:servicios_lxc")
         
 class InsertUsers(CreateView):

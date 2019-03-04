@@ -3,7 +3,7 @@ import json
 from django.conf import settings
 from datetime import datetime as dt
 
-from data.models import ProxmoxData,ExtraData
+from data.models import ProxmoxData,ExtraData,ZabbixDB
 from services.models import CurrentUtilization,Servicio,FutureUtilization
 
 base_data_path = os.path.join(settings.BASE_DIR,'hosts_measurement','data')
@@ -101,6 +101,16 @@ def start_procedure():
     future_users = data.future_users
     new_users = data.new_users
 
+    proxmox_list = ProxmoxData.objects.all()
+    ip_proxmox = [proxmox.address for proxmox in proxmox_list]
+    passw_proxmoxs = [proxmox.password for proxmox in proxmox_list] 
+
+    zabbix = ZabbixDB.objects.first()
+    zabbix_ip = zabbix.address
+    zabbix_user = zabbix.username
+    zabbix_password = zabbix.password
+
+    
     # Falta llamar a los datos de los Proxmox y Zabbix DB
 
     ###############################################
